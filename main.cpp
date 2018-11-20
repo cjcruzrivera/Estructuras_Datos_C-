@@ -1,29 +1,41 @@
+#include "main.hpp"
 
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <list>
 
-using namespace std;
-
-#ifdef __linux__
-#define LIMPIAR "clear"
-#endif // __linux__
-
-#ifdef __MINGW32__
-#define LIMPIAR "cls"
-#endif // __MINGW32__
-
-struct cliente
+int main(int argc, char **argv)
 {
-    string codigo;
-    string nombre;
-    string apellidos;
-    string celular;
-};
+    int respuesta = 0;
+    bool invalid = false;
 
-list<cliente> clientes;
+    while (respuesta != 6)
+    {
+        imprimir(respuesta, invalid);
+        invalid = false;
+        cin >> respuesta;
+        if (!valida(respuesta))
+        {
+            invalid = true;
+            continue;
+        }
+        int respuesta_2;
+        bool invalid2 = false;
+        do
+        {
+            imprimir(respuesta, invalid2);
+            cin >> respuesta_2;
+            invalid2 = true;
+        } while (!valida2(respuesta, respuesta_2));
 
+        menus(respuesta, respuesta_2);
+        respuesta = 0;
+    }
+
+    return 0;
+}
+
+
+/////////////////////////////////
+//   Logica de los menus      //
+/////////////////////////////////
 //GENERAR MENU SUPERIOR
 void menu_superior()
 {
@@ -154,76 +166,292 @@ void imprimir(int respuesta, bool invalid = false)
     cout << menu_inferior(respuesta);
 }
 
+/////////////////////////////////
+//   Logica de los clientes    //
+/////////////////////////////////
 void ingresar_cliente()
 {
     menu_superior();
-    string codigo, nombre, apellidos, celular,confirm;
+    string codigo, nombre, apellido, celular;
     cout << "           Ingrese el codigo del cliente: ";
     cin >> codigo;
     cout << endl
          << "           Ingrese el nombre del cliente: ";
     cin >> nombre;
     cout << endl
-         << "           Ingrese el apellidos del cliente: ";
-    cin >> apellidos;
+         << "           Ingrese el apellido del cliente: ";
+    cin >> apellido;
     cout << endl
          << "           Ingrese el celular del cliente: ";
     cin >> celular;
     cliente cli;
     cli.codigo = codigo;
     cli.nombre = nombre;
-    cli.apellidos = apellidos;
+    cli.apellido = apellido;
     cli.celular = celular;
     clientes.push_back(cli);
     cout << "              Cliente registrado";
     cin.get();
-    cin.ignore(100,'\n'); 
-
+    cin.ignore(100, '\n');
 }
 
 void buscar_clientes()
 {
     menu_superior();
     string codigo;
-    cout << "      Ingrese el codigo del cliente a buscar o 0 para consultarlos todos: ";
-    cin >> codigo;
-    list<cliente>::iterator it;
-    cout << endl;
-    if (codigo == "0")
+    if (clientes.empty())
     {
-        for (it = clientes.begin(); it != clientes.end(); it++)
-        {
-            cout << "----------------------------" << endl;
-            cout << "Codigo: " << it->codigo << endl;
-            cout << "Nombre: " << it->nombre << endl;
-            cout << "Apellidos: " << it->apellidos << endl;
-            cout << "Celular: " << it->celular << endl;
-            cout << "----------------------------" << endl;
-        }
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY CLIENTES REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
     }
     else
     {
-        for (it = clientes.begin(); it != clientes.end(); it++)
+        cout << "      Ingrese el codigo del cliente a buscar o 0 para consultarlos todos: ";
+        cin >> codigo;
+        list<cliente>::iterator it;
+        cout << endl;
+        if (codigo == "0")
         {
-            if (codigo == it->codigo)
+
+            for (it = clientes.begin(); it != clientes.end(); it++)
             {
                 cout << "----------------------------" << endl;
                 cout << "Codigo: " << it->codigo << endl;
                 cout << "Nombre: " << it->nombre << endl;
-                cout << "Apellidos: " << it->apellidos << endl;
+                cout << "Apellido: " << it->apellido << endl;
                 cout << "Celular: " << it->celular << endl;
                 cout << "----------------------------" << endl;
             }
         }
+        else
+        {
+            if (clientes.empty())
+            {
+                cout << "-----------------------------------------------" << endl;
+                cout << "         NO HAY CLIENTES REGISTRADOS" << endl
+                     << "-----------------------------------------------" << endl;
+            }
+            else
+            {
+                bool exist = false;
+                for (it = clientes.begin(); it != clientes.end(); it++)
+                {
+                    if (codigo == it->codigo)
+                    {
+                        exist = true;
+                        cout << "----------------------------" << endl;
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nombre: " << it->nombre << endl;
+                        cout << "Apellido: " << it->apellido << endl;
+                        cout << "Celular: " << it->celular << endl;
+                        cout << "----------------------------" << endl;
+                    }
+                }
+                if (!exist)
+                {
+                    cout << "----------------------------------------------------------------" << endl;
+                    cout << "         NO HAY CLIENTES REGISTRADOS CON ESE CODIGO" << endl
+                         << "----------------------------------------------------------------" << endl;
+                }
+            }
+        }
     }
     cin.get();
-    cin.ignore(100,'\n'); 
+    cin.ignore(100, '\n');
 }
 
-//Logica de los clientes
+void actualizar_cliente()
+{
+    menu_superior();
+    string codigo;
+    cout << "      Ingrese el codigo del cliente a actualizar: ";
+    cin >> codigo;
+    list<cliente>::iterator it;
+
+    if (clientes.empty())
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY CLIENTES REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        bool exist = false;
+        for (it = clientes.begin(); it != clientes.end(); it++)
+        {
+            if (codigo == it->codigo)
+            {
+                exist = true;
+                string codigo, nombre, apellido, celular;
+                cout << "           Ingrese el codigo del cliente (act:" << it->codigo << "): ";
+                cin >> codigo;
+                cout << endl
+                     << "           Ingrese el nombre del cliente (act:" << it->nombre << "): ";
+                cin >> nombre;
+                cout << endl
+                     << "           Ingrese el apellido del cliente (act:" << it->apellido << "): ";
+                cin >> apellido;
+                cout << endl
+                     << "           Ingrese el celular del cliente (act:" << it->celular << "): ";
+                cin >> celular;
+                it->codigo = codigo;
+                it->nombre = nombre;
+                it->apellido = apellido;
+                it->celular = celular;
+                cout << "              Cliente actualizado";
+            }
+        }
+        if (!exist)
+        {
+            cout << "----------------------------------------------------------------" << endl;
+            cout << "         NO HAY CLIENTES REGISTRADOS CON ESE CODIGO" << endl
+                 << "----------------------------------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
+}
+
+void eliminar_cliente()
+{
+    menu_superior();
+    string codigo;
+    cout << "      Ingrese el codigo del cliente a eliminar: ";
+    cin >> codigo;
+    list<cliente>::iterator it;
+
+    if (clientes.empty())
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY CLIENTES REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        bool exist = false;
+        for (it = clientes.begin(); it != clientes.end(); it++)
+        {
+            if (codigo == it->codigo)
+            {
+                exist = true;
+                clientes.erase(it);
+                cout << "              Cliente eliminado";
+                break;
+            }
+        }
+        if (!exist)
+        {
+            cout << "----------------------------------------------------------------" << endl;
+            cout << "         NO HAY CLIENTES REGISTRADOS CON ESE CODIGO" << endl
+                 << "----------------------------------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
+}
+
+void crear_archivo()
+{
+    list<cliente>::iterator it, last;
+
+    if (clientes.empty())
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY CLIENTES REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        ofstream archivo;
+        archivo.open("bd.txt", ios::out);
+        if (!archivo.fail())
+        {
+            last = clientes.end();
+            last--;
+            for (it = clientes.begin(); it != clientes.end(); it++)
+            {
+                string cliente = it->codigo + "," + it->nombre + "," + it->apellido + "," + it->celular;
+                archivo << cliente;
+
+                if (it != last)
+                {
+                    archivo << endl;
+                }
+            }
+            cout << "Archivo backup creado correctamente";
+            archivo.close();
+        }
+        else
+        {
+            cout << "Error al crear el archivo backup";
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
+}
+
+void recuperar_datos()
+{
+    string ruta = "bd.txt";
+
+    // cout << "Ingrese la ruta del archivo a cargar: ";
+    // cin >> ruta;
+
+    FILE *archivo;
+    archivo = fopen(ruta.c_str(), "r");
+
+    if (archivo == NULL)
+    {
+        cout << "Ruta invalida";
+    }
+    else
+    {
+        char aux[100], *token;
+
+        while (!feof(archivo))
+        {
+            fscanf(archivo, "%s", aux);
+            cliente cli;
+            token = strtok(aux, ",");
+            int i = 0;
+            cout << "Cliente: ";
+            while (token != NULL)
+            {
+                if (i == 0)
+                {
+                    cli.codigo = token;
+                }
+                else if (i == 1)
+                {
+                    cli.nombre = token;
+                }
+                else if (i == 2)
+                {
+                    cli.apellido = token;
+                }
+                else if (i == 3)
+                {
+                    cli.celular = token;
+                }
+
+                cout << token << " ";
+                i++;
+                token = strtok(NULL, ",");
+            }
+            cout << endl;
+            clientes.push_back(cli);
+
+            i = 0;
+        }
+        cout << "\t\tClientes registrados";
+        cin.get();
+        cin.ignore(100, '\n');
+    }
+}
+
 void menu_clientes(int respuesta)
 {
-
     switch (respuesta)
     {
     case 1:
@@ -231,27 +459,89 @@ void menu_clientes(int respuesta)
         break;
     case 2:
         buscar_clientes();
+        break;
+    case 3:
+        actualizar_cliente();
+        break;
+    case 4:
+        eliminar_cliente();
+        break;
+    case 5:
+        crear_archivo();
+        break;
+    case 6:
+        recuperar_datos();
+        break;
     default:
         break;
     }
 }
 
-//Logica de los productos
-void menu_productos(int respuesta)
-{
+/////////////////////////////////
+//   Logica de los productos    //
+/////////////////////////////////
+
+void ingresar_producto(){
+    
 }
 
-//Logica de las facturas
+void buscar_producto(){
+
+}
+
+void eliminar_producto(){
+
+}
+
+void actualizar_producto(){
+
+}
+
+void menu_productos(int respuesta)
+{
+    switch (respuesta)
+    {
+        case 1:
+            /* ingresar_producto() */
+            break;
+        case 2:
+            /* buscar_producto() */
+            break;
+        case 3:
+            /* eliminar_producto() */
+            break;
+        case 4:
+            /* actualizar_producto() */
+            break;
+        case 5:
+            /* producto_economico() */
+            break;
+        case 6:
+            /* producto_costoso() */
+            break;
+    
+        default:
+            break;
+    }
+}
+
+/////////////////////////////////
+//   Logica de las facturas    //
+/////////////////////////////////
 void menu_facturas(int respuesta)
 {
 }
 
-//Logica de los pedidos
+/////////////////////////////////
+//   Logica de los pedidos    //
+/////////////////////////////////
 void menu_pedidos(int respuesta)
 {
 }
 
-//Logica de los empleados
+/////////////////////////////////
+//   Logica de los empleados    //
+/////////////////////////////////
 void menu_empleados(int respuesta)
 {
 }
@@ -282,33 +572,3 @@ void menus(int r1, int r2)
     }
 }
 
-int main(int argc, char **argv)
-{
-    int respuesta = 0;
-    bool invalid = false;
-
-    while (respuesta != 6)
-    {
-        imprimir(respuesta, invalid);
-        invalid = false;
-        cin >> respuesta;
-        if (!valida(respuesta))
-        {
-            invalid = true;
-            continue;
-        }
-        int respuesta_2;
-        bool invalid2 = false;
-        do
-        {
-            imprimir(respuesta, invalid2);
-            cin >> respuesta_2;
-            invalid2 = true;
-        } while (!valida2(respuesta, respuesta_2));
-
-        menus(respuesta, respuesta_2);
-        respuesta = 0;
-    }
-
-    return 0;
-}
