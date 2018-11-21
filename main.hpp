@@ -29,13 +29,16 @@ struct producto
     string codigo;
     string nombre;
     string precio;
-}
+};
 
-list<cliente>
-    clientes;
+list<cliente> clientes;
 
-int cantProd;
-  
+producto *productos;
+int cantProd = 0;
+int cantProdReg = 0;
+
+
+
 void menu_superior();
 string menu_inferior();
 bool valida(int respuesta);

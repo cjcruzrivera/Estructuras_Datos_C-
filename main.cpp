@@ -224,34 +224,26 @@ void buscar_clientes()
         }
         else
         {
-            if (clientes.empty())
+            bool exist = false;
+            for (it = clientes.begin(); it != clientes.end(); it++)
             {
-                cout << "-----------------------------------------------" << endl;
-                cout << "         NO HAY CLIENTES REGISTRADOS" << endl
-                     << "-----------------------------------------------" << endl;
+                if (codigo == it->codigo)
+                {
+                    exist = true;
+                    cout << "----------------------------" << endl;
+                    cout << "Codigo: " << it->codigo << endl;
+                    cout << "Nombre: " << it->nombre << endl;
+                    cout << "Apellido: " << it->apellido << endl;
+                    cout << "Celular: " << it->celular << endl;
+                    cout << "----------------------------" << endl;
+                    break;
+                }
             }
-            else
+            if (!exist)
             {
-                bool exist = false;
-                for (it = clientes.begin(); it != clientes.end(); it++)
-                {
-                    if (codigo == it->codigo)
-                    {
-                        exist = true;
-                        cout << "----------------------------" << endl;
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nombre: " << it->nombre << endl;
-                        cout << "Apellido: " << it->apellido << endl;
-                        cout << "Celular: " << it->celular << endl;
-                        cout << "----------------------------" << endl;
-                    }
-                }
-                if (!exist)
-                {
-                    cout << "----------------------------------------------------------------" << endl;
-                    cout << "         NO HAY CLIENTES REGISTRADOS CON ESE CODIGO" << endl
-                         << "----------------------------------------------------------------" << endl;
-                }
+                cout << "----------------------------------------------------------------" << endl;
+                cout << "         NO HAY CLIENTES REGISTRADOS CON ESE CODIGO" << endl
+                     << "----------------------------------------------------------------" << endl;
             }
         }
     }
@@ -263,8 +255,6 @@ void actualizar_cliente()
 {
     menu_superior();
     string codigo;
-    cout << "      Ingrese el codigo del cliente a actualizar: ";
-    cin >> codigo;
     list<cliente>::iterator it;
 
     if (clientes.empty())
@@ -275,6 +265,8 @@ void actualizar_cliente()
     }
     else
     {
+        cout << "      Ingrese el codigo del cliente a actualizar: ";
+        cin >> codigo;
         bool exist = false;
         for (it = clientes.begin(); it != clientes.end(); it++)
         {
@@ -315,8 +307,6 @@ void eliminar_cliente()
 {
     menu_superior();
     string codigo;
-    cout << "      Ingrese el codigo del cliente a eliminar: ";
-    cin >> codigo;
     list<cliente>::iterator it;
 
     if (clientes.empty())
@@ -327,6 +317,8 @@ void eliminar_cliente()
     }
     else
     {
+        cout << "      Ingrese el codigo del cliente a eliminar: ";
+        cin >> codigo;
         bool exist = false;
         for (it = clientes.begin(); it != clientes.end(); it++)
         {
@@ -484,6 +476,15 @@ void ingresar_producto()
     menu_superior();
     string codigo, nombre;
     int precio;
+
+    if (cantProd == 0)
+    {
+        cout << "  Ingrese la cantidad de productos total que se van registrar: ";
+        cin >> cantProd;
+        productos = new producto[cantProd];
+    }
+
+    cout << "Producto " << cantProdReg + 1 << " de " << cantProd << endl;
     cout << "           Ingrese el codigo del producto: ";
     cin >> codigo;
     cout << endl
@@ -492,11 +493,69 @@ void ingresar_producto()
     cout << endl
          << "           Ingrese el precio del producto: ";
     cin >> precio;
-    
+    producto prod;
+    prod.codigo = codigo;
+    prod.nombre = nombre;
+    prod.precio = precio;
+    productos[cantProdReg] = prod;
+    cantProdReg++;
+    cout << "\t\tProducto registrado";
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void buscar_producto()
 {
+    string codigo;
+
+    if (cantProd == 0 || cantProdReg == 0)
+    {
+        cout << "\t\tNo hay productos registrados";
+    }
+    else
+    {
+        cout << "      Ingrese el codigo del producto a buscar o 0 para consultarlos todos: ";
+        cin >> codigo;
+        if (codigo == "0")
+        {
+            for (int i = 0; i < cantProdReg; i++)
+            {
+                cout << "----------------------------" << endl;
+                cout << "Producto [" << i + 1 << "/" << cantProdReg << "]" << endl;
+                cout << "Codigo: " << productos[i].codigo << endl;
+                cout << "Nombre: " << productos[i].nombre << endl;
+                cout << "Precio: " << productos[i].precio << endl;
+                cout << "----------------------------" << endl;
+            }
+        }
+        else
+        {
+            bool exist = false;
+            for (int i = 0; i < cantProdReg; i++)
+            {
+                if (productos[i].codigo == codigo)
+                {
+                    exist = true;
+                    cout << "----------------------------" << endl;
+                    cout << "Producto [" << i + 1 << "/" << cantProdReg << "]" << endl;
+                    cout << "Codigo: " << productos[i].codigo << endl;
+                    cout << "Nombre: " << productos[i].nombre << endl;
+                    cout << "Precio: " << productos[i].precio << endl;
+                    cout << "----------------------------" << endl;
+                    break;
+                }
+            }
+            if (!exist)
+            {
+                cout << "----------------------------------------------------------------" << endl;
+                cout << "         NO HAY PRODUCTOS REGISTRADOS CON ESE CODIGO" << endl
+                     << "----------------------------------------------------------------" << endl;
+            }
+
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void eliminar_producto()
