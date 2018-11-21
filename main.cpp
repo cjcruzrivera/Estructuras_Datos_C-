@@ -1,6 +1,5 @@
 #include "main.hpp"
 
-
 int main(int argc, char **argv)
 {
     int respuesta = 0;
@@ -31,7 +30,6 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
 
 /////////////////////////////////
 //   Logica de los menus      //
@@ -481,47 +479,67 @@ void menu_clientes(int respuesta)
 //   Logica de los productos    //
 /////////////////////////////////
 
-void ingresar_producto(){
+void ingresar_producto()
+{
+    menu_superior();
+    string codigo, nombre;
+    int precio;
+    cout << "           Ingrese el codigo del producto: ";
+    cin >> codigo;
+    cout << endl
+         << "           Ingrese el nombre del producto: ";
+    cin >> nombre;
+    cout << endl
+         << "           Ingrese el precio del producto: ";
+    cin >> precio;
     
 }
 
-void buscar_producto(){
-
+void buscar_producto()
+{
 }
 
-void eliminar_producto(){
-
+void eliminar_producto()
+{
 }
 
-void actualizar_producto(){
+void actualizar_producto()
+{
+}
 
+void producto_economico()
+{
+}
+
+void producto_costoso()
+{
 }
 
 void menu_productos(int respuesta)
 {
     switch (respuesta)
     {
-        case 1:
-            /* ingresar_producto() */
-            break;
-        case 2:
-            /* buscar_producto() */
-            break;
-        case 3:
-            /* eliminar_producto() */
-            break;
-        case 4:
-            /* actualizar_producto() */
-            break;
-        case 5:
-            /* producto_economico() */
-            break;
-        case 6:
-            /* producto_costoso() */
-            break;
-    
-        default:
-            break;
+    case 1:
+        ingresar_producto();
+        break;
+    case 2:
+        buscar_producto();
+        break;
+    case 3:
+        eliminar_producto();
+        break;
+    case 4:
+        actualizar_producto();
+        break;
+    case 5:
+        producto_economico();
+        break;
+    case 6:
+        producto_costoso();
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -571,4 +589,3 @@ void menus(int r1, int r2)
         break;
     }
 }
-

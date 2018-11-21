@@ -26,11 +26,16 @@ struct cliente
 
 struct producto
 {
-    
+    string codigo;
+    string nombre;
+    string precio;
 }
 
-list<cliente> clientes;
+list<cliente>
+    clientes;
 
+int cantProd;
+  
 void menu_superior();
 string menu_inferior();
 bool valida(int respuesta);
@@ -52,3 +57,5 @@ void ingresar_producto();
 void buscar_producto();
 void eliminar_producto();
 void actualizar_producto();
+void producto_economico();
+void producto_costoso();
