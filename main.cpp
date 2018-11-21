@@ -479,27 +479,36 @@ void ingresar_producto()
 
     if (cantProd == 0)
     {
-        cout << "  Ingrese la cantidad de productos total que se van registrar: ";
+        cout << "\tIngrese la cantidad de productos total que se van registrar: ";
         cin >> cantProd;
-        productos = new producto[cantProd];
+        productos = new producto[cantProd + 1];
     }
 
-    cout << "Producto " << cantProdReg + 1 << " de " << cantProd << endl;
-    cout << "           Ingrese el codigo del producto: ";
-    cin >> codigo;
-    cout << endl
-         << "           Ingrese el nombre del producto: ";
-    cin >> nombre;
-    cout << endl
-         << "           Ingrese el precio del producto: ";
-    cin >> precio;
-    producto prod;
-    prod.codigo = codigo;
-    prod.nombre = nombre;
-    prod.precio = precio;
-    productos[cantProdReg] = prod;
-    cantProdReg++;
-    cout << "\t\tProducto registrado";
+    if (cantProdReg == cantProd)
+    {
+        cout << "----------------------------------------------------------------" << endl;
+        cout << "       NO SE PUEDEN REGISTRAR MAS PRODUCTOS. ARREGLO LLENO" << endl
+             << "----------------------------------------------------------------" << endl;
+    }
+    else
+    {
+        cout << "\t\tProducto " << cantProdReg + 1 << " de " << cantProd << endl;
+        cout << "           Ingrese el codigo del producto: ";
+        cin >> codigo;
+        cout << endl
+             << "           Ingrese el nombre del producto: ";
+        cin >> nombre;
+        cout << endl
+             << "           Ingrese el precio del producto: ";
+        cin >> precio;
+        producto prod;
+        prod.codigo = codigo;
+        prod.nombre = nombre;
+        prod.precio = precio;
+        productos[cantProdReg] = prod;
+        cantProdReg++;
+        cout << "\t\tProducto registrado";
+    }
     cin.get();
     cin.ignore(100, '\n');
 }
@@ -551,7 +560,6 @@ void buscar_producto()
                 cout << "         NO HAY PRODUCTOS REGISTRADOS CON ESE CODIGO" << endl
                      << "----------------------------------------------------------------" << endl;
             }
-
         }
     }
     cin.get();
@@ -560,10 +568,94 @@ void buscar_producto()
 
 void eliminar_producto()
 {
+    menu_superior();
+    string codigo;
+
+    if (cantProd == 0 || cantProdReg == 0)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY PRODUCTOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        bool exist = false;
+        cout << "      Ingrese el codigo del producto a eliminar: ";
+        cin >> codigo;
+        int prods = cantProdReg;
+        for (int i = 0; i < prods; i++)
+        {
+            // cout << productos[i].codigo; 
+            if (productos[i].codigo == codigo)
+            {
+                exist = true;
+                for(int k = i; k < cantProdReg; k++){
+                    productos[k] = productos[k+1];
+                }
+                cantProdReg--;
+                cout << "\t\tProducto Eliminado" << endl;
+
+                break;
+            }
+        }
+        if (!exist)
+        {
+            cout << "----------------------------------------------------------------" << endl;
+            cout << "         NO HAY PRODUCTOS REGISTRADOS CON ESE CODIGO" << endl
+                 << "----------------------------------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void actualizar_producto()
 {
+    menu_superior();
+    string codigo, nombre;
+    int precio;
+
+    if (cantProd == 0 || cantProdReg == 0)
+    {
+        cout << "\t\tNo hay productos registrados";
+    }
+    else
+    {
+        cout << "      Ingrese el codigo del producto a actualizar: ";
+        cin >> codigo;
+
+        bool exist = false;
+        for (int i = 0; i < cantProdReg; i++)
+        {
+            if (productos[i].codigo == codigo)
+            {
+                exist = true;
+                cout << "\t\tProducto [" << i + 1 << "/" << cantProdReg << "]" << endl;
+                cout << "    Ingrese el codigo del producto (act: " << productos[i].codigo << " ): ";
+                cin >> codigo;
+                cout << endl
+                     << "           Ingrese el nombre del producto (act: " << productos[i].nombre << " ): ";
+                cin >> nombre;
+                cout << endl
+                     << "           Ingrese el precio del producto (act: " << productos[i].precio << " ): ";
+                cin >> precio;
+                productos[i].codigo = codigo;
+                productos[i].nombre = nombre;
+                productos[i].precio = precio;
+                cout << "\t\tProducto actualizado";
+
+                break;
+            }
+        }
+        if (!exist)
+        {
+            cout << "----------------------------------------------------------------" << endl;
+            cout << "         NO HAY PRODUCTOS REGISTRADOS CON ESE CODIGO" << endl
+                 << "----------------------------------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void producto_economico()

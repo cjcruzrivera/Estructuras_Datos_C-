@@ -28,7 +28,7 @@ struct producto
 {
     string codigo;
     string nombre;
-    string precio;
+    int precio;
 };
 
 list<cliente> clientes;
