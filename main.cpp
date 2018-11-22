@@ -339,7 +339,7 @@ void eliminar_cliente()
     }
     cin.get();
     cin.ignore(100, '\n');
-}
+}       
 
 void crear_archivo()
 {
