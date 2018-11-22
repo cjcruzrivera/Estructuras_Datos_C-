@@ -585,12 +585,13 @@ void eliminar_producto()
         int prods = cantProdReg;
         for (int i = 0; i < prods; i++)
         {
-            // cout << productos[i].codigo; 
+            // cout << productos[i].codigo;
             if (productos[i].codigo == codigo)
             {
                 exist = true;
-                for(int k = i; k < cantProdReg; k++){
-                    productos[k] = productos[k+1];
+                for (int k = i; k < cantProdReg; k++)
+                {
+                    productos[k] = productos[k + 1];
                 }
                 cantProdReg--;
                 cout << "\t\tProducto Eliminado" << endl;
@@ -617,7 +618,9 @@ void actualizar_producto()
 
     if (cantProd == 0 || cantProdReg == 0)
     {
-        cout << "\t\tNo hay productos registrados";
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY PRODUCTOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
     }
     else
     {
@@ -660,10 +663,84 @@ void actualizar_producto()
 
 void producto_economico()
 {
+    menu_superior();
+    int precio, prod;
+    if (cantProd == 0 || cantProdReg == 0)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY PRODUCTOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < cantProdReg; i++)
+        {
+            if (i == 0)
+            {
+                prod = i;
+                precio = productos[i].precio;
+            }
+            else
+            {
+                if (productos[i].precio < precio)
+                {
+                    prod = i;
+                    precio = productos[i].precio;
+                }
+            }
+        }
+
+        cout << "El producto mas economico es: " << endl;
+        cout << "----------------------------" << endl;
+        cout << "Producto [" << prod + 1 << "/" << cantProdReg << "]" << endl;
+        cout << "Codigo: " << productos[prod].codigo << endl;
+        cout << "Nombre: " << productos[prod].nombre << endl;
+        cout << "Precio: " << productos[prod].precio << endl;
+        cout << "----------------------------" << endl;
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void producto_costoso()
 {
+    menu_superior();
+    int precio, prod;
+    if (cantProd == 0 || cantProdReg == 0)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY PRODUCTOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < cantProdReg; i++)
+        {
+            if (i == 0)
+            {
+                prod = i;
+                precio = productos[i].precio;
+            }
+            else
+            {
+                if (productos[i].precio > precio)
+                {
+                    prod = i;
+                    precio = productos[i].precio;
+                }
+            }
+        }
+
+        cout << "El producto mas costoso es: " << endl;
+        cout << "----------------------------" << endl;
+        cout << "Producto [" << prod + 1 << "/" << cantProdReg << "]" << endl;
+        cout << "Codigo: " << productos[prod].codigo << endl;
+        cout << "Nombre: " << productos[prod].nombre << endl;
+        cout << "Precio: " << productos[prod].precio << endl;
+        cout << "----------------------------" << endl;
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void menu_productos(int respuesta)
@@ -697,22 +774,143 @@ void menu_productos(int respuesta)
 /////////////////////////////////
 //   Logica de las facturas    //
 /////////////////////////////////
+
+void insertarCola(factura dato)
+{
+
+    nodo *nuevo_nodo = new nodo();
+    nuevo_nodo->dato = dato;
+    nuevo_nodo->siguiente = NULL;
+
+    if (frente == NULL)
+    {
+        frente = nuevo_nodo;
+    }
+    else
+    {
+        fin->siguiente = nuevo_nodo;
+    }
+
+    fin = nuevo_nodo;
+    cout << "Elemento insertado correctamente en la cola";
+}
+
+void insertar_factura()
+{
+    menu_superior();
+    string codigo, nombre;
+    int valor;
+
+    cout << "           Ingrese el codigo del producto: ";
+    cin >> codigo;
+    cout << endl
+         << "           Ingrese el nombre del producto: ";
+    cin >> nombre;
+    cout << endl
+         << "           Ingrese el precio del producto: ";
+    cin >> precio;
+    factura fact;
+    fact.codigo = codigo;
+    fact.nombre_pagar = nombre;
+    fact.valor = precio;
+    insertarCola(fact);
+}
+
+void mostrar_facturas()
+{
+}
+
 void menu_facturas(int respuesta)
 {
+
+    switch (respuesta)
+    {
+    case 1:
+        insertar_factura();
+        break;
+    case 2:
+        mostrar_facturas();
+        break;
+    default:
+        break;
+    }
 }
 
 /////////////////////////////////
 //   Logica de los pedidos    //
 /////////////////////////////////
+
+void insertar_pedido()
+{
+}
+
+void mostrar_pedidos()
+{
+}
+
 void menu_pedidos(int respuesta)
 {
+    switch (respuesta)
+    {
+    case 1:
+        insertar_pedido();
+        break;
+    case 2:
+        mostrar_pedidos();
+        break;
+    default:
+        break;
+    }
 }
 
 /////////////////////////////////
 //   Logica de los empleados    //
 /////////////////////////////////
+
+void ingresar_empleado()
+{
+}
+void mostrar_empleados()
+{
+}
+void buscar_empleados()
+{
+}
+void recorrer_pre_orden()
+{
+}
+void recorrer_in_orden()
+{
+}
+void recorrer_post_orden()
+{
+}
+
 void menu_empleados(int respuesta)
 {
+    switch (respuesta)
+    {
+    case 1:
+        ingresar_empleado();
+        break;
+    case 2:
+        mostrar_empleados();
+        break;
+    case 3:
+        buscar_empleados();
+        break;
+    case 4:
+        recorrer_pre_orden();
+        break;
+    case 5:
+        recorrer_in_orden();
+        break;
+    case 6:
+        recorrer_post_orden();
+        break;
+    default:
+        break;
+    }
 }
 
 // seleccionar la logica segun la opcion elegida

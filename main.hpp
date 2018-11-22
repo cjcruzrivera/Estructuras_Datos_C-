@@ -31,9 +31,26 @@ struct producto
     int precio;
 };
 
-list<cliente> clientes;
+struct factura
+{
+    string codigo;
+    string nombre_pagar;
+    int valor;
+}
 
+struct nodo
+{
+    factura dato;
+    nodo *siguiente;
+};
+
+list<cliente> clientes;
 producto *productos;
+nodo *pila = NULL;
+
+nodo *frente = NULL;
+nodo *fin = NULL;
+
 int cantProd = 0;
 int cantProdReg = 0;
 
@@ -41,24 +58,36 @@ int cantProdReg = 0;
 
 void menu_superior();
 string menu_inferior();
-bool valida(int respuesta);
-bool valida2(int r1, int r2);
-void imprimir(int respuesta, bool invalid);
+bool valida(int);
+bool valida2(int, int);
+void imprimir(int, bool);
 void ingresar_cliente();
 void buscar_clientes();
 void actualizar_cliente();
 void eliminar_cliente();
 void crear_archivo();
 void recuperar_datos();
-void menu_clientes(int respuesta);
-void menu_productos(int respuesta);
-void menu_facturas(int respuesta);
-void menu_pedidos(int respuesta);
-void menu_empleados(int respuesta);
-void menus(int r1, int r2);
+void menu_clientes(int);
+void menu_productos(int);
+void menu_facturas(int);
+void menu_pedidos(int);
+void menu_empleados(int);
+void menus(int, int);
 void ingresar_producto();
 void buscar_producto();
 void eliminar_producto();
 void actualizar_producto();
 void producto_economico();
 void producto_costoso();
+void ingresar_empleado();
+void mostrar_empleados();
+void buscar_empleados();
+void recorrer_pre_orden();
+void recorrer_in_orden();
+void recorrer_post_orden();
+void insertar_factura();
+void mostrar_facturas();
+void insertar_pedido();
+void mostrar_pedidos();
+void insertarCola(factura);
+
