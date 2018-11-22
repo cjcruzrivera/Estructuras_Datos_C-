@@ -94,7 +94,7 @@ string menu_inferior(int respuesta)
     case 5:
         menu_inferior += "                  MENU\n ";
         menu_inferior += "                1- INGRESAR EMPLEADOS X EDAD\n ";
-        menu_inferior += "                2- BUSCAR EMPLEADO X EDAD\n ";
+        menu_inferior += "                2- MOSTRAR EMPLEADOS X EDAD\n ";
         menu_inferior += "                3- BUSCAR EMPLEADO X EDAD\n ";
         menu_inferior += "                4- RECORRER ARBOL EN PRE ORDEN\n ";
         menu_inferior += "                5- RECORRER ARBOL EN IN ORDEN\n ";
@@ -339,7 +339,7 @@ void eliminar_cliente()
     }
     cin.get();
     cin.ignore(100, '\n');
-}       
+}
 
 void crear_archivo()
 {
@@ -841,7 +841,6 @@ void mostrar_facturas()
             aux = aux->siguiente;
             contador++;
             cout << "-------------------------------------" << endl;
-
         }
     }
     cin.get();
@@ -947,22 +946,148 @@ void menu_pedidos(int respuesta)
 //   Logica de los empleados    //
 /////////////////////////////////
 
+nodo_arbol *crearNodo(empleado dato)
+{
+    nodo_arbol *nuevo_nodo = new nodo_arbol();
+
+    nuevo_nodo->dato = dato;
+    nuevo_nodo->derecho = NULL;
+    nuevo_nodo->izquierdo = NULL;
+
+    return nuevo_nodo;
+}
+
+void insertarArbol(nodo_arbol *&tree, empleado dato)
+{
+    if (tree == NULL)
+    {
+        nodo_arbol *nuevo_nodo = crearNodo(dato);
+        tree = nuevo_nodo;
+        cout << "\t Empleado ingresado correctamente en el arbol" << endl;
+    }
+    else
+    {
+        int valorRaiz = tree->dato.edad;
+        if (dato.edad < valorRaiz)
+        {
+            insertarArbol(tree->izquierdo, dato);
+        }
+        else
+        {
+            insertarArbol(tree->derecho, dato);
+        }
+    }
+}
+
+void mostrarArbol(nodo_arbol *tree, int cont)
+{
+    if (tree == NULL)
+    {
+        return;
+    }
+    else
+    {
+        mostrarArbol(tree->derecho, cont + 1);
+
+        for (int i = 0; i < cont; i++)
+        {
+            cout << "\t";
+        }
+        cout << "(" << tree->dato.nombre << ", " << tree->dato.edad << ")" << endl;
+        mostrarArbol(tree->izquierdo, cont + 1);
+    }
+}
+
+bool buscarArbol(nodo_arbol *tree, int edad)
+{
+    if (arbol == NULL)
+    {
+        return false;
+    }
+    else if (tree->dato.edad == edad)
+    {
+        cout << "Empleado " << tree->dato.nombre << ", " << tree->dato.edad << " años." << endl;
+        return true;
+    }
+    else if (edad < tree->dato.edad)
+    {
+        return buscarArbol(tree->izquierdo, edad);
+    }
+    else if (edad > tree->dato.edad)
+    {
+        return buscarArbol(tree->derecho, edad);
+    }
+}
+
 void ingresar_empleado()
 {
-    
+    menu_superior();
+    string nombre;
+    int edad;
+
+    cout << "           Ingrese el nombre del empleado: " << endl;
+    cin >> nombre;
+    cout << "           Ingrese la edad del empleado: " << endl;
+    cin >> edad;
+
+    empleado empleado_nuevo;
+    empleado_nuevo.nombre = nombre;
+    empleado_nuevo.edad = edad;
+
+    insertarArbol(arbol, empleado_nuevo);
+    cin.get();
+    cin.ignore(100, '\n');
 }
+
 void mostrar_empleados()
 {
+    if (arbol == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY EMPLEADOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        mostrarArbol(arbol, 0);
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
+
 void buscar_empleados()
 {
+    if (arbol == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY EMPLEADOS REGISTRADOS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        int edad;
+
+        cout << "\tIngrese la edad a buscar: ";
+        cin >> edad;
+        if (!buscarArbol(arbol, edad))
+        {
+            cout << "-----------------------------------------------" << endl;
+            cout << "   NO HAY EMPLEADOS REGISTRADOS CON ESA EDAD" << endl
+                 << "-----------------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
+
 void recorrer_pre_orden()
 {
 }
+
 void recorrer_in_orden()
 {
 }
+
 void recorrer_post_orden()
 {
 }

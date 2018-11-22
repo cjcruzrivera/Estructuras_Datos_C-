@@ -52,10 +52,19 @@ struct nodo
     nodo *siguiente;
 };
 
+
+struct nodo_arbol
+{
+    empleado dato;
+    nodo_arbol *derecho;
+    nodo_arbol *izquierdo;
+};
+
+
 list<cliente> clientes;
 producto *productos;
 nodo *pila = NULL;
-
+nodo_arbol *arbol = NULL;
 nodo *frente = NULL;
 nodo *fin = NULL;
 
@@ -97,4 +106,7 @@ void insertar_pedido();
 void mostrar_pedidos();
 void insertarCola(factura);
 void insertarPila(factura);
-
+nodo_arbol *crearNodo(empleado);
+void insertarArbol(nodo_arbol *&, empleado);
+void mostrarArbol(nodo_arbol *, int);
+bool buscarArbol(nodo_arbol *, int);
