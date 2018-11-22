@@ -36,7 +36,15 @@ struct factura
     string codigo;
     string nombre_pagar;
     int valor;
-}
+};
+
+
+struct empleado
+{
+    string nombre;
+    int edad;
+};
+
 
 struct nodo
 {
@@ -53,8 +61,6 @@ nodo *fin = NULL;
 
 int cantProd = 0;
 int cantProdReg = 0;
-
-
 
 void menu_superior();
 string menu_inferior();
@@ -90,4 +96,5 @@ void mostrar_facturas();
 void insertar_pedido();
 void mostrar_pedidos();
 void insertarCola(factura);
+void insertarPila(factura);
 

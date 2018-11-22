@@ -801,23 +801,51 @@ void insertar_factura()
     string codigo, nombre;
     int valor;
 
-    cout << "           Ingrese el codigo del producto: ";
+    cout << "           Ingrese el codigo de la factura: ";
     cin >> codigo;
     cout << endl
-         << "           Ingrese el nombre del producto: ";
+         << "           Ingrese el nombre de la factura: ";
     cin >> nombre;
     cout << endl
-         << "           Ingrese el precio del producto: ";
-    cin >> precio;
+         << "           Ingrese el precio de la factura: ";
+    cin >> valor;
     factura fact;
     fact.codigo = codigo;
     fact.nombre_pagar = nombre;
-    fact.valor = precio;
+    fact.valor = valor;
     insertarCola(fact);
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void mostrar_facturas()
 {
+    if (frente == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY FACTURAS REGISTRADAS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        nodo *aux;
+        aux = frente;
+        int contador = 1;
+
+        while (aux != NULL)
+        {
+            cout << "Factura Nº " << contador << endl;
+            cout << "Codigo: " << aux->dato.codigo << endl;
+            cout << "Nombre a quien pagar: " << aux->dato.nombre_pagar << endl;
+            cout << "Valor: " << aux->dato.valor << endl;
+            aux = aux->siguiente;
+            contador++;
+            cout << "-------------------------------------" << endl;
+
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void menu_facturas(int respuesta)
@@ -839,13 +867,65 @@ void menu_facturas(int respuesta)
 /////////////////////////////////
 //   Logica de los pedidos    //
 /////////////////////////////////
+void insertarPila(factura pedido)
+{
+    nodo *nuevo_nodo = new nodo();
+    nuevo_nodo->dato = pedido;
+    nuevo_nodo->siguiente = pila;
+    pila = nuevo_nodo;
+    cout << "Elemento insertado correctamente en la pila" << endl;
+}
 
 void insertar_pedido()
 {
+    menu_superior();
+    string codigo, nombre;
+    int valor;
+
+    cout << "           Ingrese el codigo del pedido: ";
+    cin >> codigo;
+    cout << endl
+         << "           Ingrese el nombre a quien pagar el pedido: ";
+    cin >> nombre;
+    cout << endl
+         << "           Ingrese el valor del pedido: ";
+    cin >> valor;
+    factura pedido;
+    pedido.codigo = codigo;
+    pedido.nombre_pagar = nombre;
+    pedido.valor = valor;
+    insertarPila(pedido);
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void mostrar_pedidos()
 {
+    if (pila == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY PEDIDOS REGISTRADAS" << endl
+             << "-----------------------------------------------" << endl;
+    }
+    else
+    {
+        nodo *aux;
+        aux = pila;
+        int contador = 1;
+
+        while (aux != NULL)
+        {
+            cout << "Pedido Nº " << contador << endl;
+            cout << "Codigo: " << aux->dato.codigo << endl;
+            cout << "Nombre a quien pagar: " << aux->dato.nombre_pagar << endl;
+            cout << "Valor: " << aux->dato.valor << endl;
+            aux = aux->siguiente;
+            contador++;
+            cout << "-------------------------------------" << endl;
+        }
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void menu_pedidos(int respuesta)
@@ -869,6 +949,7 @@ void menu_pedidos(int respuesta)
 
 void ingresar_empleado()
 {
+    
 }
 void mostrar_empleados()
 {
