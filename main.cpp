@@ -1019,6 +1019,37 @@ bool buscarArbol(nodo_arbol *tree, int edad)
     }
 }
 
+void preOrden(nodo_arbol *tree){
+    if(tree==NULL){
+        return;
+    }else{
+        cout << tree->dato.edad << "-";
+        preOrden(tree->izquierdo);
+        preOrden(tree->derecho);
+    }
+}
+
+void inOrden(nodo_arbol *tree){
+    if(tree==NULL){
+        return;
+    }else{
+        inOrden(tree->izquierdo);
+        cout << tree->dato.edad << "-";
+        inOrden(tree->derecho);
+    }
+}
+
+void postOrden(nodo_arbol *tree){
+    if(tree==NULL){
+        return;
+    }else{
+        postOrden(tree->izquierdo);
+        postOrden(tree->derecho);
+        cout << tree->dato.edad << "-";
+    }
+}
+
+
 void ingresar_empleado()
 {
     menu_superior();
@@ -1082,14 +1113,45 @@ void buscar_empleados()
 
 void recorrer_pre_orden()
 {
+    if (arbol == NULL)
+    {
+
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY EMPLEADOS REGISTRADOS" << endl;
+        cout << "-----------------------------------------------" << endl;
+    }else{
+        preOrden(arbol);
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void recorrer_in_orden()
 {
+    if (arbol == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY EMPLEADOS REGISTRADOS" << endl;
+        cout << "-----------------------------------------------" << endl;
+    }else{
+        inOrden(arbol);
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void recorrer_post_orden()
 {
+    if (arbol == NULL)
+    {
+        cout << "-----------------------------------------------" << endl;
+        cout << "         NO HAY EMPLEADOS REGISTRADOS" << endl;
+        cout << "-----------------------------------------------" << endl;
+    }else{
+        postOrden(arbol);
+    }
+    cin.get();
+    cin.ignore(100, '\n');
 }
 
 void menu_empleados(int respuesta)

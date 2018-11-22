@@ -110,3 +110,6 @@ nodo_arbol *crearNodo(empleado);
 void insertarArbol(nodo_arbol *&, empleado);
 void mostrarArbol(nodo_arbol *, int);
 bool buscarArbol(nodo_arbol *, int);
+void preOrden(nodo_arbol *);
+void inOrden(nodo_arbol *);
+void postOrden(nodo_arbol *);
